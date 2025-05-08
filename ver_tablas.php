@@ -1,8 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tablas de la base de datos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
 <?php
 // Parámetros de conexión
 $host = "10.42.3.167";
 $usuario = "ALPHA";
-$contrasena = "12369874"; // Cambia esto si tienes una contraseña en tu MySQL
+$contrasena = "12369874";
 $base_datos = "PruebaAlpha";
 
 // Crear conexión
@@ -10,7 +37,7 @@ $conexion = new mysqli($host, $usuario, $contrasena, $base_datos);
 
 // Verificar conexión
 if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
+    die("<p>Error de conexión: " . $conexion->connect_error . "</p>");
 }
 
 // Obtener lista de tablas
@@ -29,18 +56,15 @@ if ($resultado_tablas->num_rows > 0) {
         $resultado_datos = $conexion->query($consulta_datos);
 
         if ($resultado_datos->num_rows > 0) {
-            echo "<table border='1' cellpadding='5'><tr>";
+            echo "<table><tr>";
 
-            // Mostrar encabezados
-            while ($col = $resultado_datos->fetch_fields()[0]) {
-                foreach ($resultado_datos->fetch_fields() as $campo) {
-                    echo "<th>{$campo->name}</th>";
-                }
-                break;
+            // Encabezados
+            foreach ($resultado_datos->fetch_fields() as $campo) {
+                echo "<th>{$campo->name}</th>";
             }
+            echo "</tr>";
 
-            // Mostrar datos
-            $resultado_datos->data_seek(0); // Volver al inicio
+            // Datos
             while ($registro = $resultado_datos->fetch_assoc()) {
                 echo "<tr>";
                 foreach ($registro as $valor) {
@@ -48,14 +72,19 @@ if ($resultado_tablas->num_rows > 0) {
                 }
                 echo "</tr>";
             }
+
             echo "</table>";
         } else {
-            echo "La tabla está vacía.<br>";
+            echo "<p>La tabla está vacía.</p>";
         }
     }
 } else {
-    echo "No hay tablas en la base de datos.";
+    echo "<p>No hay tablas en la base de datos.</p>";
 }
 
 $conexion->close();
 ?>
+
+</body>
+</html>
+
