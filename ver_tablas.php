@@ -1,6 +1,6 @@
 <?php
 // Parámetros de conexión
-$host = "10.42.3.1679";
+$host = "10.42.3.167";
 $usuario = "ALPHA";
 $contrasena = "12369874"; // Cambia esto si tienes una contraseña en tu MySQL
 $base_datos = "PruebaAlpha";
